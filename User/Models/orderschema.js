@@ -32,6 +32,10 @@ const orderschema=mongoose.Schema({
     Category:{
         type:String,
         required:true
+    },
+    Date:{
+        type:String,
+        default:new Date().toISOString().slice(0,10)
     }
 })
 

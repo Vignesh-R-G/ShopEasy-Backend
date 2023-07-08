@@ -23,18 +23,20 @@ exports.addproduct=async (req,res)=>{
     }
 }
 
-// Edit Quantity
-exports.editquantity=async(req,res)=>{
+// Edit Product Details
+exports.editproduct=async(req,res)=>{
     try{
-        const edited=await productschema.updateOne({_id:req.body.id},{$set:{Available_Qty:req.body.qty}})
+        console.log(req.body)
+        const edited=await productschema.updateOne({_id:req.body.id},{$set:{Available_Qty:req.body.qty,Name:req.body.name,Price:req.body.price,Category:req.body.category,Image:req.body.image,Discount:req.body.discount}})
         res.json({status:true,msg:edited})
     }
     catch(err){
+        console.log(err)
         res.json({status:false,msg:"Error occured in editing the product"})
     }
 }
 
-// Auto Edit
+// Auto Edit when ordering
 exports.autoedit=async(req,res)=>{
     try{
         const product=await productschema.findOne({_id:req.body.id})
@@ -46,6 +48,19 @@ exports.autoedit=async(req,res)=>{
             const edited=await productschema.updateOne({_id:req.body.id},{$set:{Available_Qty:available-req.body.ordered_qty}})
             res.json({status:true,msg:edited})
         }
+    }
+    catch(err){
+        res.json({status:false,msg:"Error occured in auto editing"})
+    }
+}
+
+//Auto Edit when cancelling the order
+exports.autoEditWhenCancelling=async(req,res)=>{
+    try{
+        const product=await productschema.findOne({_id:req.body.id})
+        const available=product.Available_Qty
+        const edited=await productschema.updateOne({_id:req.body.id},{$set:{Available_Qty:available+req.body.ordered_qty}})
+        res.json({status:true,msg:edited})
     }
     catch(err){
         res.json({status:false,msg:"Error occured in auto editing"})

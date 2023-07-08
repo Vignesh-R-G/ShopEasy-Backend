@@ -62,7 +62,7 @@ exports.verifytoken=async (req,res)=>{
                 res.json({status:false,msg:"Authentication Expired"})
             }
             else{
-                const admin=await adminschema.find({_id:decoded._id})
+                const admin=await adminschema.findOne({_id:decoded._id})
                 res.json({status:true,msg:"Login Successful !",name:admin.Name,email:admin.Email})
             }
         })

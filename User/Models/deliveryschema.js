@@ -19,14 +19,18 @@ const deliveryschema=mongoose.Schema({
         required:true,
         trim:true
     },
+    MobileNumber:{
+        type:Number,
+        required:true
+    },
     OrderId:{
         type:String,
         required:true,
         trim:true
     },
     OrderedDate:{
-        type:Date,
-        default:Date.now()
+        type:String,
+        default:new Date().toISOString().slice(0,10)
     },
     Status:{
         type:String,
